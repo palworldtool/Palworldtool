@@ -598,75 +598,120 @@ class PalworldWebApp {
       card.style.borderRadius = "10px";
       card.style.padding = "14px 18px";
       card.style.display = "flex";
-      card.style.alignItems = "center";
-      card.style.gap = "14px";
-      card.style.flexWrap = "wrap";
-      card.style.marginBottom = "10px";
+      card.style.flexDirection = "column";
+      card.style.gap = "10px";
+      card.style.marginBottom = "12px";
+
+      // Step Header (Step Number & RNG Warning Badge)
+      const headerRow = document.createElement("div");
+      headerRow.style.display = "flex";
+      headerRow.style.justifyContent = "space-between";
+      headerRow.style.alignItems = "center";
+      headerRow.style.width = "100%";
 
       const stepLabel = document.createElement("div");
       stepLabel.className = "step-label";
       stepLabel.style.fontWeight = "bold";
       stepLabel.style.color = "#8c52ff";
-      stepLabel.style.minWidth = "80px";
+      stepLabel.style.fontSize = "1rem";
       stepLabel.textContent = `Schritt ${idx + 1}`;
 
-      // Parent 1 Pill
-      const p1Pill = this._createStepPalPill(step.p1_pal, step.p1_gender, step.p1_is_owned, step.p1_is_wild);
+      // RNG Warning Badge
+      const inheritedCount = (step.child_passives || []).length;
+      const rngBadge = document.createElement("div");
+      rngBadge.style.borderRadius = "12px";
+      rngBadge.style.padding = "4px 12px";
+      rngBadge.style.fontSize = "0.78rem";
+      rngBadge.style.fontWeight = "bold";
+
+      if (inheritedCount >= 4) {
+        rngBadge.style.background = "rgba(241, 196, 15, 0.2)";
+        rngBadge.style.border = "1px solid #f1c40f";
+        rngBadge.style.color = "#f1c40f";
+        rngBadge.textContent = `⚠️ Hohes RNG: ${inheritedCount} Passives müssen vererbt werden (~10% Chance)`;
+      } else if (inheritedCount === 3) {
+        rngBadge.style.background = "rgba(0, 242, 254, 0.15)";
+        rngBadge.style.border = "1px solid #00f2fe";
+        rngBadge.style.color = "#00f2fe";
+        rngBadge.textContent = `⚡ Mittleres RNG: ${inheritedCount} Passives zu vererben (~25% Chance)`;
+      } else {
+        rngBadge.style.background = "rgba(46, 204, 113, 0.15)";
+        rngBadge.style.border = "1px solid #2ecc71";
+        rngBadge.style.color = "#2ecc71";
+        rngBadge.textContent = `✅ Geringes RNG: ${inheritedCount} Passives zu vererben (~50-80% Chance)`;
+      }
+
+      headerRow.appendChild(stepLabel);
+      headerRow.appendChild(rngBadge);
+      card.appendChild(headerRow);
+
+      // Main Step Flow Row (Parent 1 + Parent 2 -> Child)
+      const flowRow = document.createElement("div");
+      flowRow.style.display = "flex";
+      flowRow.style.alignItems = "center";
+      flowRow.style.gap = "12px";
+      flowRow.style.flexWrap = "wrap";
+      flowRow.style.width = "100%";
+
+      // Parent 1 Pill with Contributed Passives
+      const p1Pill = this._createStepPalPill(step.p1_pal, step.p1_gender, step.p1_is_owned, step.p1_is_wild, step.p1_passives);
 
       const plus = document.createElement("span");
       plus.style.color = "#8c52ff";
       plus.style.fontWeight = "bold";
-      plus.style.fontSize = "1.2rem";
+      plus.style.fontSize = "1.3rem";
       plus.textContent = "+";
 
-      // Parent 2 Pill
-      const p2Pill = this._createStepPalPill(step.p2_pal, step.p2_gender, step.p2_is_owned, step.p2_is_wild);
+      // Parent 2 Pill with Contributed Passives
+      const p2Pill = this._createStepPalPill(step.p2_pal, step.p2_gender, step.p2_is_owned, step.p2_is_wild, step.p2_passives);
 
       const arrow = document.createElement("span");
       arrow.style.color = "#00f2fe";
       arrow.style.fontWeight = "bold";
-      arrow.style.fontSize = "1.2rem";
+      arrow.style.fontSize = "1.3rem";
       arrow.textContent = "➔";
 
       // Child Pill
       const childPill = document.createElement("div");
       childPill.style.display = "flex";
       childPill.style.alignItems = "center";
-      childPill.style.gap = "8px";
+      childPill.style.gap = "10px";
       childPill.style.background = "rgba(0, 242, 254, 0.12)";
       childPill.style.border = "1px solid #00f2fe";
       childPill.style.borderRadius = "8px";
-      childPill.style.padding = "6px 12px";
+      childPill.style.padding = "8px 14px";
+      childPill.style.flex = "1";
+      childPill.style.minWidth = "220px";
 
       const passivesListText = (step.child_passives || []).join(", ") || "Keine";
 
       childPill.innerHTML = `
-        <img src="${this.ui.getPalIconPath(step.child_pal.id)}" class="step-icon" style="width:36px; height:36px; border-radius:50%;">
+        <img src="${this.ui.getPalIconPath(step.child_pal.id)}" class="step-icon" style="width:40px; height:40px; border-radius:50%;">
         <div>
-          <div style="font-weight:700; font-size:0.9rem; color:#00f2fe;">${step.child_pal.name_de || step.child_pal.name_en}</div>
-          <div style="font-size:0.75rem; color:#ffe000;">Vererbt: ${passivesListText}</div>
+          <div style="font-weight:700; font-size:0.95rem; color:#00f2fe;">${step.child_pal.name_de || step.child_pal.name_en}</div>
+          <div style="font-size:0.78rem; color:#ffe000; font-weight:bold;">🎯 Vererbt: ${passivesListText}</div>
         </div>
       `;
 
-      card.appendChild(stepLabel);
-      card.appendChild(p1Pill);
-      card.appendChild(plus);
-      card.appendChild(p2Pill);
-      card.appendChild(arrow);
-      card.appendChild(childPill);
+      flowRow.appendChild(p1Pill);
+      flowRow.appendChild(plus);
+      flowRow.appendChild(p2Pill);
+      flowRow.appendChild(arrow);
+      flowRow.appendChild(childPill);
+      card.appendChild(flowRow);
 
-      // Alternative Parent Pairs Selector
+      // Smart Sorted Alternative Parent Pairs Selector
       const altCombos = this.engine.getCombinations(step.child_pal.id);
       if (altCombos.length > 1) {
         const altWrapper = document.createElement("div");
         altWrapper.style.width = "100%";
-        altWrapper.style.marginTop = "6px";
+        altWrapper.style.marginTop = "4px";
         altWrapper.style.display = "flex";
         altWrapper.style.alignItems = "center";
         altWrapper.style.gap = "8px";
 
         const altLabel = document.createElement("span");
-        altLabel.style.fontSize = "0.78rem";
+        altLabel.style.fontSize = "0.8rem";
         altLabel.style.color = "#8c52ff";
         altLabel.style.fontWeight = "bold";
         altLabel.textContent = `🔄 Anderes Elternpaar für ${step.child_pal.name_de || step.child_pal.name_en} wählen (${altCombos.length} Optionen):`;
@@ -677,20 +722,50 @@ class PalworldWebApp {
         altSelect.style.color = "#ffffff";
         altSelect.style.borderRadius = "6px";
         altSelect.style.padding = "4px 8px";
-        altSelect.style.fontSize = "0.8rem";
+        altSelect.style.fontSize = "0.82rem";
         altSelect.style.cursor = "pointer";
+        altSelect.style.flex = "1";
+
+        // Categorize & Smart Sort Alternatives
+        const ownedIds = new Set(this.ownedStock.map(i => i.pal_id));
+
+        const groupBothOwned = [];
+        const groupOneOwned = [];
+        const groupWilds = [];
 
         altCombos.forEach(([ap1, ap2], cIdx) => {
-          const opt = document.createElement("option");
-          opt.value = cIdx;
-          const name1 = ap1.name_de || ap1.name_en;
-          const name2 = ap2.name_de || ap2.name_en;
-          opt.textContent = `${name1} + ${name2}`;
-          if ((ap1.id === step.p1_pal.id && ap2.id === step.p2_pal.id) || (ap1.id === step.p2_pal.id && ap2.id === step.p1_pal.id)) {
-            opt.selected = true;
-          }
-          altSelect.appendChild(opt);
+          const has1 = ownedIds.has(ap1.id);
+          const has2 = ownedIds.has(ap2.id);
+          const item = { ap1, ap2, cIdx };
+
+          if (has1 && has2) groupBothOwned.push(item);
+          else if (has1 || has2) groupOneOwned.push(item);
+          else groupWilds.push(item);
         });
+
+        // Add Options to Select with Category Group Headers
+        const addOptionGroup = (label, items, iconPrefix) => {
+          if (items.length === 0) return;
+          const optGroup = document.createElement("optgroup");
+          optGroup.label = label;
+
+          items.forEach(({ ap1, ap2, cIdx }) => {
+            const opt = document.createElement("option");
+            opt.value = cIdx;
+            const name1 = ap1.name_de || ap1.name_en;
+            const name2 = ap2.name_de || ap2.name_en;
+            opt.textContent = `${iconPrefix} ${name1} + ${name2}`;
+            if ((ap1.id === step.p1_pal.id && ap2.id === step.p2_pal.id) || (ap1.id === step.p2_pal.id && ap2.id === step.p1_pal.id)) {
+              opt.selected = true;
+            }
+            optGroup.appendChild(opt);
+          });
+          altSelect.appendChild(optGroup);
+        };
+
+        addOptionGroup("🌟 Beide aus deinem Bestand", groupBothOwned, "🌟");
+        addOptionGroup("🐾 Bestand + Wild-Pal", groupOneOwned, "🐾");
+        addOptionGroup("🌐 Theoretische Wild-Paare", groupWilds, "🌐");
 
         altSelect.onchange = (e) => {
           const selectedIdx = parseInt(e.target.value, 10);
@@ -709,7 +784,7 @@ class PalworldWebApp {
     });
   }
 
-  _createStepPalPill(pal, gender, isOwned, isWild) {
+  _createStepPalPill(pal, gender, isOwned, isWild, passivesContributed = []) {
     const pill = document.createElement("div");
     pill.style.display = "flex";
     pill.style.alignItems = "center";
@@ -718,20 +793,24 @@ class PalworldWebApp {
     pill.style.border = isOwned ? "1px solid #2ecc71" : isWild ? "1px solid #f1c40f" : "1px solid rgba(255, 255, 255, 0.1)";
     pill.style.borderRadius = "8px";
     pill.style.padding = "6px 12px";
+    pill.style.flex = "1";
+    pill.style.minWidth = "200px";
 
     const genderSymbol = gender === 'Male' ? '♂' : gender === 'Female' ? '♀' : '♂/♀';
     const subtitleText = isOwned ? '✔ Im Bestand' : isWild ? '⭐ Wild-Pal (benötigt)' : 'Zwischen-Ergebnis';
     const subtitleColor = isOwned ? '#2ecc71' : isWild ? '#f1c40f' : '#a4b0be';
 
+    const passivesText = passivesContributed.length > 0 ? passivesContributed.join(", ") : "Keine Passiven";
+
     pill.innerHTML = `
-      <img src="${this.ui.getPalIconPath(pal.id)}" class="step-icon" style="width:36px; height:36px; border-radius:50%;">
+      <img src="${this.ui.getPalIconPath(pal.id)}" class="step-icon" style="width:38px; height:38px; border-radius:50%;">
       <div>
         <div style="font-weight:700; font-size:0.9rem;">${pal.name_de || pal.name_en} (${genderSymbol})</div>
         <div style="font-size:0.75rem; color:${subtitleColor};">${subtitleText}</div>
+        <div style="font-size:0.72rem; color:#8c52ff; font-weight:bold;">Bringt mit: ${passivesText}</div>
       </div>
     `;
 
-    // If it's a recommended wild pal, add an "Exclude / Alternative" button
     if (isWild) {
       const excludeBtn = document.createElement("button");
       excludeBtn.style.background = "rgba(235, 77, 75, 0.2)";
@@ -744,7 +823,7 @@ class PalworldWebApp {
       excludeBtn.style.cursor = "pointer";
       excludeBtn.style.marginLeft = "4px";
       excludeBtn.textContent = "🚫 Hab ich nicht";
-      excludeBtn.title = `Klicken, um ${pal.name_de || pal.name_en} auszuschließen und eine Alternative zu berechnen.`;
+      excludeBtn.title = `Klicken, um ${pal.name_de || pal.name_en} einzuschränken.`;
 
       excludeBtn.onclick = (e) => {
         e.stopPropagation();

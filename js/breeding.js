@@ -1,5 +1,5 @@
 /* ========================================================================= */
-/* PALWORLD BREEDING ENGINE (ACCURATE MATRIX & SMART PASSIVE SEARCH)          */
+/* PALWORLD BREEDING ENGINE (GENDER VALIDATION & PRAGMATIC SHORTEST PATH)    */
 /* ========================================================================= */
 
 export class BreedingEngine {
@@ -49,7 +49,7 @@ export class BreedingEngine {
     }).filter(Boolean);
   }
 
-  findPassiveBreedingPath(targetPalName, targetPassives, ownedStockList = [], maxSteps = 5) {
+  findPassiveBreedingPath(targetPalName, targetPassives, ownedStockList = [], maxSteps = 3) {
     const targetPal = this.findPal(targetPalName);
     if (!targetPal) {
       return { success: false, error_message: `Ziel-Pal '${targetPalName}' wurde nicht gefunden.` };
@@ -62,7 +62,7 @@ export class BreedingEngine {
 
     const targetPassivesList = Array.from(targetSet);
 
-    // Build base node set from owned stock
+    // Build base nodes from owned stock
     const ownedNodes = [];
     const coveredPassives = new Set();
 
@@ -76,15 +76,13 @@ export class BreedingEngine {
           passives: itemPassives,
           gender: item.gender || "Any",
           is_owned: true,
-          label: `${palObj.name_de || palObj.name_en} (in deinem Bestand)`
+          label: `${palObj.name_de || palObj.name_en} (im Bestand)`
         });
       }
     });
 
-    // For any missing passives, inject virtual wild carrier nodes (e.g. wild Chikipi, Cattiva, Lamball)
+    // Virtual Wild Carriers for any missing passives
     const missingPassives = targetPassivesList.filter(p => !coveredPassives.has(p));
-    
-    // Default starter wild pals to serve as carriers for missing passives
     const starterWildPals = ["ChickenPal", "PinkCat", "SheepBall", "Carbunclo", "CuteFox"];
 
     missingPassives.forEach((passive, idx) => {
@@ -101,26 +99,26 @@ export class BreedingEngine {
       });
     });
 
-    // Run BFS Search to find shortest optimal path
+    // Run BFS Search with Gender Strictness & Shortest Practical Path logic
     const res = this._searchBFS(targetPal, targetSet, ownedNodes, maxSteps);
     if (res.success) {
       if (missingPassives.length > 0 && ownedStockList.length === 0) {
-        res.recommendation_notice = "Optimale Zuchtkette berechnet! (Benötigte Wunsch-Passive werden über gefangene Wild-Pals vererbt):";
+        res.recommendation_notice = "Optimale 1–2 Schritte Zuchtkette (Fehlende Passiv-Träger über Wildfang):";
       } else if (missingPassives.length > 0) {
         res.recommendation_notice = "Zuchtkette kombiniert deinen Bestand mit benötigten Wild-Pals:";
       } else {
-        res.recommendation_notice = "Kürzeste Zuchtkette aus deinem Bestand gefunden:";
+        res.recommendation_notice = "Kürzester Zuchtweg aus deinem Bestand (Geschlechter berücksichtigt):";
       }
       return res;
     }
 
     return {
       success: false,
-      error_message: `Kein Zuchtpfad zum Ziel-Pal '${targetPal.name_de || targetPal.name_en}' mit diesen Passiven gefunden.`
+      error_message: `Kein praxistauglicher Zuchtpfad zum Ziel-Pal '${targetPal.name_de || targetPal.name_en}' mit diesen Passiven gefunden.`
     };
   }
 
-  _searchBFS(targetPal, targetSet, baseNodes, maxSteps) {
+  _searchBFS(targetPal, targetSet, baseNodes, maxSteps = 3) {
     const queue = [];
     const visited = new Map();
 
@@ -150,7 +148,7 @@ export class BreedingEngine {
 
       if (steps.length >= maxSteps) continue;
 
-      // Build partner pool (other baseNodes + wild pals)
+      // Build partner pool
       const partnerPool = baseNodes.map(n => ({ ...n }));
 
       // Add all wild pals as potential breeding partners
@@ -166,29 +164,43 @@ export class BreedingEngine {
       });
 
       for (const partner of partnerPool) {
+        // 🚨 CRITICAL BUGFIX: Strict Gender Check
+        if (current.is_owned && partner.is_owned) {
+          const g1 = current.gender;
+          const g2 = partner.gender;
+          if (g1 === "Male" && g2 === "Male") continue; // ❌ Invalid! Two males!
+          if (g1 === "Female" && g2 === "Female") continue; // ❌ Invalid! Two females!
+          if (current.pal.id === partner.pal.id && g1 === g2) continue; // Same Pal same gender
+        }
+
         const childPal = this.breedByPals(current.pal, partner.pal);
         if (!childPal) continue;
 
-        // Inherit passives
-        const inherited = new Set();
-        current.passives.forEach(p => { if (targetSet.has(p)) inherited.add(p); });
-        partner.passives.forEach(p => { if (targetSet.has(p)) inherited.add(p); });
+        // Inherit passives relevant to targetSet
+        const p1Passives = Array.from(current.passives).filter(p => targetSet.has(p));
+        const p2Passives = Array.from(partner.passives).filter(p => targetSet.has(p));
+        
+        const inherited = new Set([...p1Passives, ...p2Passives]);
 
         const stepInfo = {
           p1_pal: current.pal,
-          p1_passives: Array.from(current.passives),
+          p1_gender: current.gender || "Any",
+          p1_passives: p1Passives,
           p1_label: current.label || `${current.pal.name_de || current.pal.name_en}`,
           p1_is_owned: current.is_owned || false,
           p1_is_wild: current.is_wild_carrier || current.is_wild_recommendation || false,
 
           p2_pal: partner.pal,
-          p2_passives: Array.from(partner.passives),
+          p2_gender: partner.gender || "Any",
+          p2_passives: p2Passives,
           p2_label: partner.label || `${partner.pal.name_de || partner.pal.name_en}`,
           p2_is_owned: partner.is_owned || false,
           p2_is_wild: partner.is_wild_carrier || partner.is_wild_recommendation || false,
 
           child_pal: childPal,
-          child_passives: Array.from(inherited)
+          child_passives: Array.from(inherited),
+          inherited_count: inherited.size,
+          target_total: targetSet.size
         };
 
         const newSteps = [...steps, stepInfo];
@@ -201,21 +213,23 @@ export class BreedingEngine {
           continue;
         }
 
-        // Add child node to queue
-        const childNode = {
-          pal: childPal,
-          passives: inherited,
-          gender: "Any",
-          is_owned: false,
-          label: `Zwischen-Ergebnis ${childPal.name_de || childPal.name_en}`
-        };
+        // Add child node to queue if steps < maxSteps
+        if (newSteps.length < maxSteps) {
+          const childNode = {
+            pal: childPal,
+            passives: inherited,
+            gender: "Any",
+            is_owned: false,
+            label: `Zwischen-Ergebnis ${childPal.name_de || childPal.name_en}`
+          };
 
-        const childStateKey = `${childPal.id}|${Array.from(inherited).sort().join(",")}`;
-        const existingCost = visited.get(childStateKey) ?? Infinity;
+          const childStateKey = `${childPal.id}|${Array.from(inherited).sort().join(",")}`;
+          const existingCost = visited.get(childStateKey) ?? Infinity;
 
-        if (newSteps.length < existingCost) {
-          visited.set(childStateKey, newSteps.length);
-          queue.push({ node: childNode, steps: newSteps });
+          if (newSteps.length < existingCost) {
+            visited.set(childStateKey, newSteps.length);
+            queue.push({ node: childNode, steps: newSteps });
+          }
         }
       }
     }
