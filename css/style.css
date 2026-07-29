@@ -1,0 +1,778 @@
+/* ========================================================================= */
+/* PALWORLD WEB APP STYLESHEET - FILTER BUTTONS MATCHING IN-GAME BADGES      */
+/* ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap');
+
+:root {
+  --bg-dark: #06050a;
+  --bg-gradient: radial-gradient(circle at 50% 0%, #141022 0%, #0a0812 50%, #06050a 100%);
+  --header-bg: rgba(12, 10, 18, 0.85);
+  --nav-bar-bg: rgba(16, 13, 24, 0.95);
+  --card-bg: rgba(20, 22, 31, 0.7);
+  --card-bg-hover: rgba(30, 32, 45, 0.9);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  
+  --accent-purple: #8c52ff;
+  --accent-purple-glow: rgba(140, 82, 255, 0.3);
+  
+  /* PALWORLD IN-GAME COLORS ACCORDING TO SCREENSHOTS */
+  /* Tier 1 (+1): Grey Background, Grey/White Accent Bar, Grey/White Text */
+  --tier-1-text: #e1e6eb;
+  --tier-1-border: rgba(225, 230, 235, 0.3);
+  --tier-1-bg: linear-gradient(90deg, #1d2128 0%, #12141a 100%);
+
+  /* Tier 2 (+2) & Tier 3 (+3): Olive Gold Background, Yellow Accent Bar */
+  --tier-gold-text: #ffe000;
+  --tier-gold-border: rgba(255, 224, 0, 0.45);
+  --tier-gold-bg: linear-gradient(90deg, #37330d 0%, #1c1a06 100%);
+
+  /* Tier 4 (+4): Dark Teal Background, Neon Cyan Accent Bar */
+  --tier-4-text: #00f2fe;
+  --tier-4-border: rgba(0, 242, 254, 0.5);
+  --tier-4-bg: linear-gradient(90deg, #093339 0%, #0c2033 100%);
+
+  --male-color: #22a6f2;
+  --female-color: #ff7675;
+  --success-green: #2ecc71;
+  --error-red: #eb4d4b;
+
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-dark);
+  background: var(--bg-gradient);
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* Header Container (Centered Logo Banner) */
+.top-header {
+  width: 100%;
+  background: var(--header-bg);
+  backdrop-filter: blur(16px);
+  padding: 16px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-logo {
+  height: 58px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 14px rgba(140, 82, 255, 0.45));
+}
+
+/* Horizontal Full-Width Navigation Bar */
+.horizontal-navbar {
+  width: 100%;
+  background: var(--nav-bar-bg);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+  max-width: 1200px;
+  justify-content: center;
+}
+
+.nav-tab-btn {
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #a4b0be;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 14px 22px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-tab-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.nav-tab-btn.active {
+  color: var(--accent-purple);
+  border-bottom: 3px solid var(--accent-purple);
+  background: rgba(140, 82, 255, 0.1);
+  text-shadow: 0 0 10px var(--accent-purple-glow);
+}
+
+/* Main Content Area */
+.main-wrapper {
+  flex: 1;
+  width: 100%;
+  max-width: 1350px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.tab-view {
+  display: none;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.tab-view.active {
+  display: flex;
+}
+
+/* View Header */
+.view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.title-badge-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.view-title {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.count-badge {
+  background: rgba(140, 82, 255, 0.2);
+  border: 1px solid var(--accent-purple);
+  color: #ffffff;
+  padding: 4px 14px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.controls-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.search-bar {
+  background: rgba(20, 22, 31, 0.85);
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  color: #ffffff;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  width: 250px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-bar:focus {
+  border-color: var(--accent-purple);
+}
+
+/* FILTER BAR BUTTONS STYLED EXACTLY LIKE IN-GAME BADGES */
+.opgg-filter-bar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.opgg-filter-btn {
+  background: rgba(20, 22, 31, 0.85);
+  border: 1px solid var(--glass-border);
+  color: #a4b0be;
+  padding: 8px 20px;
+  border-radius: 3px;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+}
+
+.opgg-filter-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.15);
+}
+
+.opgg-filter-btn.active {
+  box-shadow: 0 0 14px rgba(140, 82, 255, 0.4);
+}
+
+/* Specific Filter Button Styles Matching In-Game Badge Tiers */
+.opgg-filter-btn[data-tier="4"] {
+  background: var(--tier-4-bg);
+  border: 1px solid var(--tier-4-border);
+  border-left: 4px solid #00f2fe;
+  color: var(--tier-4-text);
+}
+
+.opgg-filter-btn[data-tier="3"],
+.opgg-filter-btn[data-tier="2"] {
+  background: var(--tier-gold-bg);
+  border: 1px solid var(--tier-gold-border);
+  border-left: 4px solid #ffe000;
+  color: var(--tier-gold-text);
+}
+
+.opgg-filter-btn[data-tier="1"] {
+  background: var(--tier-1-bg);
+  border: 1px solid var(--tier-1-border);
+  border-left: 4px solid #a0a8b6;
+  color: var(--tier-1-text);
+}
+
+.opgg-filter-btn[data-tier="0"] {
+  background: rgba(30, 32, 45, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-left: 4px solid var(--accent-purple);
+  color: #ffffff;
+}
+
+/* EXACT PALWORLD IN-GAME PASSIVE BADGE DESIGN */
+.palworld-passive-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  border-radius: 3px;
+  width: 100%;
+  height: 42px;
+  font-family: var(--font-heading);
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Tier 1 (+1): Grey Background, Grey/White Accent Bar */
+.palworld-passive-badge.tier-1 {
+  background: var(--tier-1-bg);
+  border: 1px solid var(--tier-1-border);
+  border-left: 4px solid #a0a8b6;
+  color: var(--tier-1-text);
+}
+
+/* Tier 2 (+2) & Tier 3 (+3): Olive Gold Background, Yellow Accent Bar */
+.palworld-passive-badge.tier-2,
+.palworld-passive-badge.tier-3,
+.palworld-passive-badge.gold {
+  background: var(--tier-gold-bg);
+  border: 1px solid var(--tier-gold-border);
+  border-left: 4px solid #ffe000;
+  color: var(--tier-gold-text);
+}
+
+/* Tier 4 (+4): Dark Teal Background, Neon Cyan Accent Bar */
+.palworld-passive-badge.tier-4 {
+  background: var(--tier-4-bg);
+  border: 1px solid var(--tier-4-border);
+  border-left: 4px solid #00f2fe;
+  color: var(--tier-4-text);
+  box-shadow: 0 0 14px rgba(0, 242, 254, 0.35);
+}
+
+.badge-chevrons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+}
+
+/* 3-COLUMN GRID LAYOUT FOR PASSIVES OVERVIEW */
+.passives-3col-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+@media (max-width: 1000px) {
+  .passives-3col-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 650px) {
+  .passives-3col-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ENLARGED PASSIVE CARD IN 3-COLUMN GRID */
+.passive-grid-card {
+  background: rgba(18, 20, 29, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: all 0.2s ease-in-out;
+}
+
+.passive-grid-card:hover {
+  background: rgba(28, 30, 44, 0.98);
+  border-color: rgba(140, 82, 255, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65);
+}
+
+.passive-grid-desc {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #e2e8f0;
+  line-height: 1.5;
+  white-space: pre-line;
+  padding: 10px 14px;
+  background: rgba(10, 12, 18, 0.6);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Cards Grid for Pals */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 12px;
+}
+
+.pal-card {
+  background: var(--card-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s;
+}
+
+.pal-card:hover {
+  background: var(--card-bg-hover);
+  border-color: rgba(140, 82, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.pal-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #2f3542;
+  flex-shrink: 0;
+}
+
+.pal-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.pal-name {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gender-toggles {
+  display: flex;
+  gap: 6px;
+}
+
+.gender-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #a4b0be;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.gender-btn.male.active {
+  background: var(--male-color);
+  border-color: var(--male-color);
+  color: #ffffff;
+  box-shadow: 0 0 8px rgba(34, 166, 242, 0.4);
+}
+
+.gender-btn.female.active {
+  background: var(--female-color);
+  border-color: var(--female-color);
+  color: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 118, 117, 0.4);
+}
+
+/* Glassmorphism Section Boxes */
+.glass-box {
+  background: radial-gradient(circle at 50% 0%, rgba(28, 22, 48, 0.7) 0%, rgba(11, 8, 17, 0.8) 100%);
+  border: 1px solid rgba(140, 82, 255, 0.3);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.section-box-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.section-box-title {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent-purple);
+  letter-spacing: 1px;
+}
+
+/* Target & Passive Slots */
+.slots-container {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.target-slot-card {
+  width: 170px;
+  height: 110px;
+  background: rgba(20, 22, 31, 0.65);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.target-slot-card:hover {
+  border-color: var(--accent-purple);
+  background: rgba(30, 32, 45, 0.85);
+}
+
+.target-slot-card.filled {
+  border: 1px solid var(--accent-purple);
+  background: rgba(20, 22, 31, 0.85);
+}
+
+.target-slot-icon {
+  font-size: 1.5rem;
+}
+
+.target-slot-name {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+}
+
+.target-slot-clear {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.target-slot-clear:hover {
+  color: var(--error-red);
+}
+
+/* In-Game Style Passive Slot Pills */
+.passive-pill {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: #a4b0be;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+}
+
+.passive-pill:hover {
+  background: rgba(255, 224, 0, 0.15);
+  border-color: var(--tier-gold-border);
+  color: #ffffff;
+}
+
+.passive-pill.filled {
+  background: var(--tier-gold-bg);
+  border: 1px solid var(--tier-gold-border);
+  border-left: 4px solid #ffe000;
+  color: var(--tier-gold-text);
+}
+
+.passive-pill.filled.tier-1 {
+  background: var(--tier-1-bg);
+  border: 1px solid var(--tier-1-border);
+  border-left: 4px solid #a0a8b6;
+  color: var(--tier-1-text);
+}
+
+.passive-pill.filled.tier-4 {
+  background: var(--tier-4-bg);
+  border: 1px solid var(--tier-4-border);
+  border-left: 4px solid #00f2fe;
+  color: var(--tier-4-text);
+  box-shadow: 0 0 8px rgba(0, 242, 254, 0.25);
+}
+
+/* Buttons */
+.btn-primary {
+  background: var(--accent-purple);
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary:hover {
+  background: #7a3cf5;
+  box-shadow: 0 0 12px var(--accent-purple-glow);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-success {
+  background: rgba(46, 204, 113, 0.2);
+  border: 1px solid var(--success-green);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.btn-danger {
+  background: rgba(235, 77, 75, 0.15);
+  border: 1px solid var(--error-red);
+  color: var(--error-red);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+/* Inventory Owned Row */
+.owned-row {
+  background: rgba(20, 22, 31, 0.65);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* MODALS */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(6, 5, 10, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-dialog {
+  width: 760px;
+  max-width: 92vw;
+  max-height: 85vh;
+  background: radial-gradient(circle at 50% 50%, #1b162b 0%, #0b0811 100%);
+  border: 1px solid rgba(140, 82, 255, 0.35);
+  border-radius: 12px;
+  box-shadow: 0 0 35px rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: rgba(20, 22, 31, 0.85);
+  border: 1px solid var(--glass-border);
+  color: #a4b0be;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn.active {
+  background: var(--accent-purple);
+  color: white;
+  font-weight: 700;
+  border-color: var(--accent-purple);
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 10px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.passive-modal-card {
+  background: var(--tier-gold-bg);
+  border: 1px solid var(--tier-gold-border);
+  border-left: 4px solid #ffe000;
+  border-radius: 3px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.passive-modal-card.tier-1 {
+  background: var(--tier-1-bg);
+  border: 1px solid var(--tier-1-border);
+  border-left: 4px solid #a0a8b6;
+}
+
+.passive-modal-card.tier-4 {
+  background: var(--tier-4-bg);
+  border: 1px solid var(--tier-4-border);
+  border-left: 4px solid #00f2fe;
+}
+
+.passive-modal-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.passive-modal-card-title {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--tier-gold-text);
+}
+
+.passive-modal-card.tier-1 .passive-modal-card-title { color: var(--tier-1-text); }
+.passive-modal-card.tier-4 .passive-modal-card-title { color: var(--tier-4-text); }
+
+.passive-modal-card-desc {
+  font-size: 0.82rem;
+  color: #dcdde1;
+  line-height: 1.35;
+}

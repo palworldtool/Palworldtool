@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Palworld Breeding Tool & Inventory Manager</title>
+  <link rel="icon" type="image/png" href="assets/logo/Palworldlogo.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- App Wrapper -->
+  <div id="app" style="display: flex; flex-direction: column; width: 100vw; min-height: 100vh;">
+
+    <!-- Top Header Banner: Centered Logo -->
+    <header class="top-header">
+      <div class="logo-container">
+        <img src="assets/logo/Palworldlogo.png" alt="Palworld Logo" class="main-logo">
+      </div>
+    </header>
+
+    <!-- Horizontal Full-Width Navigation Bar (Left-to-Right Edge) -->
+    <nav class="horizontal-navbar">
+      <div class="nav-tabs">
+        <button class="nav-tab-btn active" data-view="view-my-pals">Meine Pals</button>
+        <button class="nav-tab-btn" data-view="view-breedable-pals">Züchtbare Pals</button>
+        <button class="nav-tab-btn" data-view="view-pair-calc">Zuchtrechner (Paare)</button>
+        <button class="nav-tab-btn" data-view="view-passive-calc">Zuchtrechner (Passives)</button>
+        <button class="nav-tab-btn" data-view="view-passives-overview">Passives</button>
+      </div>
+    </nav>
+
+    <!-- Main Content Wrapper -->
+    <main class="main-wrapper">
+
+      <!-- TAB 1: MEINE PALS -->
+      <section id="view-my-pals" class="tab-view active">
+        <div class="view-header">
+          <div class="title-badge-group">
+            <h2 class="view-title">Dein Pal-Bestand</h2>
+            <span id="my-pals-count-badge" class="count-badge">0 Pals im Bestand</span>
+          </div>
+
+          <div class="controls-group">
+            <label style="font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="checkbox" id="my-pals-mode-toggle" style="accent-color: #8c52ff; cursor: pointer;">
+              Nur vorhandene Pals anzeigen
+            </label>
+            <input type="text" id="my-pals-search" class="search-bar" placeholder="Pal suchen...">
+          </div>
+        </div>
+
+        <div id="my-pals-grid" class="cards-grid"></div>
+      </section>
+
+      <!-- TAB 2: ZÜCHTBARE PALS -->
+      <section id="view-breedable-pals" class="tab-view">
+        <div class="view-header">
+          <div class="title-badge-group">
+            <h2 class="view-title">Mögliche Zuchtergebnisse aus deinem Bestand</h2>
+          </div>
+          <div class="controls-group">
+            <input type="text" id="breedable-search" class="search-bar" placeholder="Ziel-Pal filtern...">
+          </div>
+        </div>
+
+        <div id="breedable-grid" style="display: flex; flex-direction: column; gap: 16px;"></div>
+      </section>
+
+      <!-- TAB 3: ZUCHTRECHNER (PAARE) -->
+      <section id="view-pair-calc" class="tab-view">
+        <div class="view-header">
+          <h2 class="view-title">Interaktiver Paar-Zuchtrechner</h2>
+        </div>
+
+        <div class="glass-box" style="align-items: center; justify-content: center; padding: 30px;">
+          <div class="slots-container" style="justify-content: center; gap: 24px;">
+            <div id="pair-parent1-slot" class="target-slot-card">
+              <span class="target-slot-icon">+</span>
+              <span class="target-slot-name">Elternteil 1</span>
+            </div>
+
+            <span style="font-size: 1.8rem; color: #8c52ff; font-weight: bold;">+</span>
+
+            <div id="pair-parent2-slot" class="target-slot-card">
+              <span class="target-slot-icon">+</span>
+              <span class="target-slot-name">Elternteil 2</span>
+            </div>
+
+            <span style="font-size: 1.8rem; color: #00f2fe; font-weight: bold;">&rarr;</span>
+
+            <div id="pair-child-slot" class="target-slot-card" style="border-style: solid; border-color: rgba(0, 242, 254, 0.4);">
+              <span class="target-slot-icon">*</span>
+              <span class="target-slot-name">Ergebnis-Pal</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: ZUCHTRECHNER (PASSIVES) -->
+      <section id="view-passive-calc" class="tab-view">
+        <div class="view-header">
+          <h2 class="view-title">Zuchtrechner für Ziel-Pal & Wunsch-Passive</h2>
+        </div>
+
+        <!-- Section 1: Ziel-Pal & Wunsch-Passive -->
+        <div class="glass-box">
+          <div class="section-box-header">
+            <span class="section-box-title">1. ZIEL-PAL & WUNSCH-PASSIVES FESTLEGEN</span>
+          </div>
+
+          <div class="slots-container">
+            <div id="passive-calc-target-slot" class="target-slot-card">
+              <span class="target-slot-icon">+</span>
+              <span class="target-slot-name">Ziel-Pal wählen</span>
+            </div>
+
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; flex: 1;">
+              <div id="target-passive-slot-1" class="passive-pill"><span>+ Passive 1</span></div>
+              <div id="target-passive-slot-2" class="passive-pill"><span>+ Passive 2</span></div>
+              <div id="target-passive-slot-3" class="passive-pill"><span>+ Passive 3</span></div>
+              <div id="target-passive-slot-4" class="passive-pill"><span>+ Passive 4</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Pal-Bestand mit Passiven -->
+        <div class="glass-box">
+          <div class="section-box-header">
+            <span class="section-box-title">2. DEIN PAL-BESTAND MIT PASSIVEN</span>
+            <div style="display: flex; gap: 8px;">
+              <button id="btn-passive-sync-inventory" class="btn-primary" style="font-size: 0.8rem;">Aus Bestand synchronisieren</button>
+              <button id="btn-passive-add-pal" class="btn-success">Pal hinzufügen</button>
+              <button id="btn-passive-clear-stock" class="btn-danger">Bestand leeren</button>
+            </div>
+          </div>
+
+          <div id="passive-stock-rows" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        </div>
+
+        <!-- Section 3: Berechnen & Zuchtkette -->
+        <div class="glass-box">
+          <div class="section-box-header">
+            <span class="section-box-title">3. ZUCHTPFAD & ANLEITUNG</span>
+            <button id="btn-calculate-passive-breeding" class="btn-primary" style="padding: 10px 24px; font-size: 0.9rem;">Zucht-Reihenfolge berechnen</button>
+          </div>
+
+          <div id="passive-results-container" style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+            <div style="color: #565f89; text-align: center; padding: 20px;">
+              Wähle oben dein Ziel-Pal, deine Wunsch-Passive und deine vorhandenen Pals.<br>Klicke dann auf 'Zucht-Reihenfolge berechnen'.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: PASSIVES ÜBERSICHT (3-COLUMN GRID) -->
+      <section id="view-passives-overview" class="tab-view">
+        <div class="view-header">
+          <div class="title-badge-group">
+            <h2 class="view-title">Passive Fähigkeiten</h2>
+            <span id="passives-overview-count" class="count-badge">93 Passives</span>
+          </div>
+
+          <div class="controls-group">
+            <input type="text" id="passives-overview-search" class="search-bar" placeholder="Passiv-Skill suchen...">
+          </div>
+        </div>
+
+        <!-- Clean Tier Filter Bar (+1, +2, +3, +4 Filters WITH CHEVRONS & PLUS UNDERNEATH FOR +4) -->
+        <div class="opgg-filter-bar" id="passives-overview-filters">
+          <button class="opgg-filter-btn active" data-tier="0">Alle</button>
+          
+          <button class="opgg-filter-btn" data-tier="4" style="color: #00f2fe; display: inline-flex; align-items: center; gap: 6px;">
+            +4
+            <svg width="12" height="18" viewBox="0 0 14 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 5L7 1L12 5" stroke="#00f2fe" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 9L7 5L12 9" stroke="#00f2fe" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 13L7 9L12 13" stroke="#00f2fe" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4 18H10M7 15V21" stroke="#00f2fe" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+
+          <button class="opgg-filter-btn" data-tier="3" style="color: #ffe000; display: inline-flex; align-items: center; gap: 6px;">
+            +3
+            <svg width="12" height="13" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 6L7 1L12 6" stroke="#ffe000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 10L7 5L12 10" stroke="#ffe000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 14L7 9L12 14" stroke="#ffe000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <button class="opgg-filter-btn" data-tier="2" style="color: #ffe000; display: inline-flex; align-items: center; gap: 6px;">
+            +2
+            <svg width="12" height="10" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 6L7 1L12 6" stroke="#ffe000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 10L7 5L12 10" stroke="#ffe000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <button class="opgg-filter-btn" data-tier="1" style="color: #e1e6eb; display: inline-flex; align-items: center; gap: 6px;">
+            +1
+            <svg width="12" height="7" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 6L7 1L12 6" stroke="#a0a8b6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- 3-Column Grid Container for Passives Cards -->
+        <div id="passives-overview-grid" class="passives-3col-grid"></div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- PAL SELECTION MODAL -->
+  <div id="pal-selection-modal" class="modal-overlay">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="pal-modal-title" class="modal-title">Pal auswählen</h3>
+        <input type="text" id="pal-modal-search" class="search-bar" placeholder="Pal suchen...">
+        <button id="pal-modal-close" class="btn-secondary" style="padding: 4px 10px;">&times;</button>
+      </div>
+      <div id="pal-modal-grid" class="modal-grid"></div>
+    </div>
+  </div>
+
+  <!-- PASSIVE SELECTION MODAL -->
+  <div id="passive-selection-modal" class="modal-overlay">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="passive-modal-title" class="modal-title">Passive Fähigkeit auswählen</h3>
+        <input type="text" id="passive-modal-search" class="search-bar" placeholder="Skill suchen...">
+        <button id="passive-modal-close" class="btn-secondary" style="padding: 4px 10px;">&times;</button>
+      </div>
+
+      <div id="passive-modal-filters" class="filter-bar">
+        <button class="filter-btn active" data-tier="0">Alle</button>
+        <button class="filter-btn" data-tier="4" style="color: #00f2fe; display: inline-flex; align-items: center; gap: 4px;">+4</button>
+        <button class="filter-btn" data-tier="3" style="color: #ffe000; display: inline-flex; align-items: center; gap: 4px;">+3</button>
+        <button class="filter-btn" data-tier="2" style="color: #ffe000; display: inline-flex; align-items: center; gap: 4px;">+2</button>
+        <button class="filter-btn" data-tier="1" style="color: #e1e6eb; display: inline-flex; align-items: center; gap: 4px;">+1</button>
+      </div>
+
+      <div id="passive-modal-grid" class="modal-grid"></div>
+    </div>
+  </div>
+
+  <script type="module" src="js/app.js?v=9"></script>
+</body>
+</html>

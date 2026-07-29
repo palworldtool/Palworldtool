@@ -1,0 +1,467 @@
+[
+  {
+    "name": "Goldenes Händchen",
+    "stars": 4,
+    "description": "Arbeitstempo +75%"
+  },
+  {
+    "name": "Diamantkörper",
+    "stars": 4,
+    "description": "Verteidigung +30.0 %\nBetäubungsimmunität\nRückstoßimmunität"
+  },
+  {
+    "name": "Ewige Lohe",
+    "stars": 4,
+    "description": "Feuerangriffsschaden +30.0 %\nElektroangriffsschaden +30.0 %"
+  },
+  {
+    "name": "Eindringling",
+    "stars": 4,
+    "description": "Schattenangriffsschaden +30.0 %\nDrachenangriffsschaden +30.0 %"
+  },
+  {
+    "name": "Legendär",
+    "stars": 4,
+    "description": "Angriff +20.0 %\nVerteidigung +20.0 %\nBewegungstempo +20.0 %"
+  },
+  {
+    "name": "Blitzschnell",
+    "stars": 4,
+    "description": "Bewegungstempo +30.0 %"
+  },
+  {
+    "name": "Babysitter",
+    "stars": 4,
+    "description": "Wenn dieser Pal im Lager ist, steigt das Eierlegetempo von Pals auf Zuchtfarmen um 30.0 % und das Bruttempo um 30.0 %."
+  },
+  {
+    "name": "Bollwerk",
+    "stars": 4,
+    "description": "Immunität gegen Explosionsschaden"
+  },
+  {
+    "name": "Unsterblich",
+    "stars": 4,
+    "description": "Lebensraub +5.0 %\nNatürliche LP-Wiederherstellung (Pals) +100.0 %\nAngriff +15.0 %"
+  },
+  {
+    "name": "Anomalie",
+    "stars": 4,
+    "description": "Natürliche LP-Wiederherstellung (Pals und Spieler) +50.0 %\nVerteidigung +25.0 %\nImmunität gegen Giftschaden\nImmunität gegen Verbrennungsschaden"
+  },
+  {
+    "name": "Teichfürst",
+    "stars": 4,
+    "description": "Wasserangriffsschaden +20.0 %\nEisangriffsschaden +20.0 %\nVerteidigung +20.0 %"
+  },
+  {
+    "name": "Schattenherrscher",
+    "stars": 4,
+    "description": "Angriff +30%\nVerteidigung +5%"
+  },
+  {
+    "name": "Asket",
+    "stars": 4,
+    "description": "Sattheit sinkt um 20.0 % langsamer."
+  },
+  {
+    "name": "Unerschütterlich",
+    "stars": 4,
+    "description": "GEI sinkt um 20.0 % langsamer."
+  },
+  {
+    "name": "Außergewöhnlich",
+    "stars": 4,
+    "description": "Angriff +15%\nVerteidigung +15%\nArbeitstempo +20%"
+  },
+  {
+    "name": "Federleicht",
+    "stars": 4,
+    "description": "Sprungzahl beim Reiten +1"
+  },
+  {
+    "name": "Himmelsläufer",
+    "stars": 4,
+    "description": "Sprungzahl beim Reiten +2"
+  },
+  {
+    "name": "Erlöser",
+    "stars": 4,
+    "description": "Neutralangriffsschaden +30.0 %\nGrasangriffsschaden +30.0 %"
+  },
+  {
+    "name": "Selbstlos",
+    "stars": 4,
+    "description": "Eigene Beutemenge +100.0 %"
+  },
+  {
+    "name": "Endloser Antrieb",
+    "stars": 4,
+    "description": "Maximale Ausdauer +75.0 %\n(Gilt nur für reitbare Pals.)"
+  },
+  {
+    "name": "Wellenkönig",
+    "stars": 4,
+    "description": "Bewegungstempo im Wasser +50.0 %"
+  },
+  {
+    "name": "Vampir",
+    "stars": 4,
+    "description": "Absorbiert einen Teil des ausgeteilten Schadens und wandelt diesen in LP um.\nSchläft nachts nicht und arbeitet weiter."
+  },
+  {
+    "name": "Hexe",
+    "stars": 4,
+    "description": "Schattenangriffsschaden +30.0 %\nEisangriffsschaden +30.0 %"
+  },
+  {
+    "name": "Stallmeister",
+    "stars": 4,
+    "description": "Eignungslevel für Farmarbeit +2"
+  },
+  {
+    "name": "Heilcoach",
+    "stars": 3,
+    "description": "Deine natürliche LP-Wiederherstellung steigt um 5.0 %."
+  },
+  {
+    "name": "Konzentration",
+    "stars": 3,
+    "description": "Reduziert Abklingzeit von Aktivfähigkeiten um 30.0 %\nAngriff +10.0 %"
+  },
+  {
+    "name": "Handwerksmeister",
+    "stars": 3,
+    "description": "Arbeitstempo +50%"
+  },
+  {
+    "name": "Stämmiger Wuchs",
+    "stars": 3,
+    "description": "Verteidigung +20.0 %\nBetäubungsimmunität"
+  },
+  {
+    "name": "Gebieter der Meere",
+    "stars": 3,
+    "description": "Wasserangriffsschaden +30.0 %"
+  },
+  {
+    "name": "Gebieter der Unterwelt",
+    "stars": 3,
+    "description": "Schattenangriffsschaden +30.0 %"
+  },
+  {
+    "name": "Drachengott",
+    "stars": 3,
+    "description": "Drachenangriffsschaden +30.0 %"
+  },
+  {
+    "name": "Zar des Erdreichs",
+    "stars": 3,
+    "description": "Erdangriffsschaden +30.0 %"
+  },
+  {
+    "name": "Flammenkaiser",
+    "stars": 3,
+    "description": "Feuerangriffsschaden +30.0 %"
+  },
+  {
+    "name": "Imperator des Eises",
+    "stars": 3,
+    "description": "Eisangriffsschaden +30.0 %"
+  },
+  {
+    "name": "Feenkönig",
+    "stars": 3,
+    "description": "Grasangriffsschaden +30.0 %"
+  },
+  {
+    "name": "Erleuchteter",
+    "stars": 3,
+    "description": "Neutralangriffsschaden +30.0 %"
+  },
+  {
+    "name": "Meister des Donners",
+    "stars": 3,
+    "description": "Elektroangriffsschaden +30.0 %"
+  },
+  {
+    "name": "Prachtfang",
+    "stars": 3,
+    "description": "Wasserangriffsschaden +5.0 %\nEisangriffsschaden +5.0 %\nVerteidigung +5.0 %"
+  },
+  {
+    "name": "Guter Läufer",
+    "stars": 3,
+    "description": "Bewegungstempo +20.0 %"
+  },
+  {
+    "name": "Wild",
+    "stars": 3,
+    "description": "Angriff +20%"
+  },
+  {
+    "name": "Fastenprofi",
+    "stars": 3,
+    "description": "Sattheit sinkt um 15.0 % langsamer."
+  },
+  {
+    "name": "Workaholic",
+    "stars": 3,
+    "description": "GEI sinkt um 15.0 % langsamer."
+  },
+  {
+    "name": "Ausdauerprofi",
+    "stars": 3,
+    "description": "Dein Ausdauerverbrauch sinkt um 5,0 %."
+  },
+  {
+    "name": "Nachlademeister",
+    "stars": 3,
+    "description": "Dein Nachladetempo steigt um 4.0 %."
+  },
+  {
+    "name": "Kostbar",
+    "stars": 3,
+    "description": "Verkaufspreis +5.0 %"
+  },
+  {
+    "name": "Spendabel",
+    "stars": 3,
+    "description": "Eigene Beutemenge +50.0 %"
+  },
+  {
+    "name": "Unermüdlich",
+    "stars": 3,
+    "description": "Maximale Ausdauer +50.0 %\n(Gilt nur für reitbare Pals.)"
+  },
+  {
+    "name": "Guter Schwimmer",
+    "stars": 3,
+    "description": "Bewegungstempo im Wasser +40.0 %"
+  },
+  {
+    "name": "Philanthrop",
+    "stars": 3,
+    "description": "Wenn dieser Pal auf einer Zuchtfarm ist, erhöht sich das Eierlegetempo um 100.0 %."
+  },
+  {
+    "name": "Angriffsstratege",
+    "stars": 3,
+    "description": "Spieler ANG +10.0 %"
+  },
+  {
+    "name": "Festungskommandant",
+    "stars": 3,
+    "description": "Spieler VTD +10.0 %"
+  },
+  {
+    "name": "Forstmeister",
+    "stars": 3,
+    "description": "Spieler Effizienz (Holzfällen) +25.0 %"
+  },
+  {
+    "name": "Oberbergmann",
+    "stars": 3,
+    "description": "Spieler Effizienz (Bergbau) +25.0 %"
+  },
+  {
+    "name": "Motivationscoach",
+    "stars": 3,
+    "description": "Spieler Arbeitstempo +25.0 %"
+  },
+  {
+    "name": "Stallbursche",
+    "stars": 3,
+    "description": "Eignungslevel für Farmarbeit +1"
+  },
+  {
+    "name": "Schwergewicht",
+    "stars": 2,
+    "description": "Verteidigung +20.0 %\nRückstoßimmunität"
+  },
+  {
+    "name": "Mehr Kraft als Verstand",
+    "stars": 2,
+    "description": "Angriff +30%\nArbeitstempo -50%"
+  },
+  {
+    "name": "Unerforschte Zellen",
+    "stars": 1,
+    "description": "Angriff +10.0 %\nFeuerschaden −15.0 %\nBlitzschaden −15.0 %"
+  },
+  {
+    "name": "Ungeduld",
+    "stars": 1,
+    "description": "Reduziert Abklingzeit von Aktivfähigkeiten um 15.0 %"
+  },
+  {
+    "name": "Fleißig",
+    "stars": 1,
+    "description": "Arbeitstempo +20%"
+  },
+  {
+    "name": "Hart im Nehmen",
+    "stars": 1,
+    "description": "Verteidigung +10%"
+  },
+  {
+    "name": "Wasserratte",
+    "stars": 1,
+    "description": "Wasserangriffsschaden +10.0 %"
+  },
+  {
+    "name": "Grufti",
+    "stars": 1,
+    "description": "Schattenangriffsschaden +10.0 %"
+  },
+  {
+    "name": "Drachengeborener",
+    "stars": 1,
+    "description": "Drachenangriffsschaden +10.0 %"
+  },
+  {
+    "name": "Macht von Gaia",
+    "stars": 1,
+    "description": "Erdangriffsschaden +10.0 %"
+  },
+  {
+    "name": "Pyromane",
+    "stars": 1,
+    "description": "Feuerangriffsschaden +10.0 %"
+  },
+  {
+    "name": "Kaltblütig",
+    "stars": 1,
+    "description": "Eisangriffsschaden +10.0 %"
+  },
+  {
+    "name": "Grüner Daumen",
+    "stars": 1,
+    "description": "Grasangriffsschaden +10.0 %"
+  },
+  {
+    "name": "Neutralisator",
+    "stars": 1,
+    "description": "Neutralangriffsschaden +10.0 %"
+  },
+  {
+    "name": "Dynamo",
+    "stars": 1,
+    "description": "Elektroangriffsschaden +10.0 %"
+  },
+  {
+    "name": "Imprägniert",
+    "stars": 1,
+    "description": "Wasserschaden −10.0 %"
+  },
+  {
+    "name": "Frohnatur",
+    "stars": 1,
+    "description": "Schattenschaden −10.0 %"
+  },
+  {
+    "name": "Drachentöter",
+    "stars": 1,
+    "description": "Drachenschaden −10.0 %"
+  },
+  {
+    "name": "Erdbebensicher",
+    "stars": 1,
+    "description": "Erdschaden −10.0 %"
+  },
+  {
+    "name": "Cooler Typ",
+    "stars": 1,
+    "description": "Feuerschaden −10.0 %"
+  },
+  {
+    "name": "Hitzkopf",
+    "stars": 1,
+    "description": "Eisschaden −10.0 %"
+  },
+  {
+    "name": "Herbizid",
+    "stars": 1,
+    "description": "Grasschaden −10.0 %"
+  },
+  {
+    "name": "Neutralitätspakt",
+    "stars": 1,
+    "description": "Neutralschaden −10.0 %"
+  },
+  {
+    "name": "Blitzableiter",
+    "stars": 1,
+    "description": "Elektroschaden −10.0 %"
+  },
+  {
+    "name": "Flink",
+    "stars": 1,
+    "description": "Bewegungstempo +10.0 %"
+  },
+  {
+    "name": "Insomnie",
+    "stars": 1,
+    "description": "Schläft nachts nicht und arbeitet weiter."
+  },
+  {
+    "name": "Mutig",
+    "stars": 1,
+    "description": "Angriff +10%"
+  },
+  {
+    "name": "Arbeitsvieh",
+    "stars": 1,
+    "description": "Arbeitstempo +30%\nAngriff -30%"
+  },
+  {
+    "name": "Genügsam",
+    "stars": 1,
+    "description": "Sattheit sinkt um 10.0 % langsamer."
+  },
+  {
+    "name": "Positive Gedanken",
+    "stars": 1,
+    "description": "GEI sinkt um 10.0 % langsamer."
+  },
+  {
+    "name": "Eingebildet",
+    "stars": 1,
+    "description": "Arbeitstempo +10%\nVerteidigung -10%"
+  },
+  {
+    "name": "Masochist",
+    "stars": 1,
+    "description": "Verteidigung +15%\nAngriff -15%"
+  },
+  {
+    "name": "Großkotz",
+    "stars": 1,
+    "description": "Angriff +10%\nVerteidigung -10%"
+  },
+  {
+    "name": "Grobian",
+    "stars": 1,
+    "description": "Angriff +15%\nArbeitstempo -10%"
+  },
+  {
+    "name": "Sadist",
+    "stars": 1,
+    "description": "Angriff +15%\nVerteidigung -15%"
+  },
+  {
+    "name": "Edles Fell",
+    "stars": 1,
+    "description": "Verkaufspreis +3.0 %"
+  },
+  {
+    "name": "Fit wie ein Turnschuh",
+    "stars": 1,
+    "description": "Maximale Ausdauer +25.0 %\n(Gilt nur für reitbare Pals.)"
+  },
+  {
+    "name": "Stromlinienform",
+    "stars": 1,
+    "description": "Bewegungstempo im Wasser +30.0 %"
+  }
+]
