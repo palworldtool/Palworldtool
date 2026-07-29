@@ -81,7 +81,7 @@ export class BreedingEngine {
       }
     });
 
-    // Virtual Wild Carriers for any missing passives
+    // Virtual Wild Carriers for any missing passives (ONLY using standard breedable pals like Chikipi, Cattiva, Lamball)
     const missingPassives = targetPassivesList.filter(p => !coveredPassives.has(p));
     const starterWildPals = ["ChickenPal", "PinkCat", "SheepBall", "Carbunclo", "CuteFox"];
 
@@ -151,8 +151,10 @@ export class BreedingEngine {
       // Build partner pool
       const partnerPool = baseNodes.map(n => ({ ...n }));
 
-      // Add all wild pals as potential breeding partners
+      // Add all VALID breedable wild pals (isBreed !== false) as potential breeding partners
       this.pals.forEach(spObj => {
+        if (spObj.isBreed === false) return; // ❌ Exclude unbreedable slimes/bosses/monsters!
+
         partnerPool.push({
           pal: spObj,
           passives: new Set(),
