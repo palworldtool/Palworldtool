@@ -288,6 +288,11 @@ class PalworldWebApp {
       }
     }
 
+    const stockSearch = document.getElementById("passive-stock-search");
+    if (stockSearch) {
+      stockSearch.addEventListener("input", () => this.renderPassiveCalcUI());
+    }
+
     if (btnSync) {
       btnSync.addEventListener("click", () => {
         const activeProfile = this.profileMgr.getActiveProfileData();
@@ -374,6 +379,8 @@ class PalworldWebApp {
     }
 
     const stockContainer = document.getElementById("passive-stock-rows");
+    const stockSearchVal = (document.getElementById("passive-stock-search")?.value || "").toLowerCase().trim();
+
     if (stockContainer) {
       stockContainer.innerHTML = "";
 
@@ -383,6 +390,20 @@ class PalworldWebApp {
         this.ownedStock.forEach((item, index) => {
           const pal = this.engine.by_id[item.pal_id];
           if (!pal) return;
+
+          const palNameDe = (pal.name_de || "").toLowerCase();
+          const palNameEn = (pal.name_en || "").toLowerCase();
+          const genderText = (item.gender || "").toLowerCase();
+          const passivesText = (item.passives || []).join(" ").toLowerCase();
+
+          // Filter by search term
+          if (stockSearchVal) {
+            const matches = palNameDe.includes(stockSearchVal) || 
+                            palNameEn.includes(stockSearchVal) || 
+                            genderText.includes(stockSearchVal) || 
+                            passivesText.includes(stockSearchVal);
+            if (!matches) return;
+          }
 
           const row = document.createElement("div");
           row.className = "owned-row";
@@ -689,7 +710,7 @@ class PalworldWebApp {
         <img src="${this.ui.getPalIconPath(step.child_pal.id)}" class="step-icon" style="width:40px; height:40px; border-radius:50%;">
         <div>
           <div style="font-weight:700; font-size:0.95rem; color:#00f2fe;">${step.child_pal.name_de || step.child_pal.name_en}</div>
-          <div style="font-size:0.78rem; color:#ffe000; font-weight:bold;">🎯 Vererbt: ${passivesListText}</div>
+          <div style="font-size:0.78rem; color:#ffe000; font-weight:bold;">🎯 Ergebnis-Traits: ${passivesListText}</div>
         </div>
       `;
 

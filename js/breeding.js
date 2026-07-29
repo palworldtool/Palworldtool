@@ -182,6 +182,11 @@ export class BreedingEngine {
         
         const inherited = new Set([...p1Passives, ...p2Passives]);
 
+        // 🛑 TRAIT-ANKER RULE: Avoid redundant 4-trait intermediate steps
+        if (childPal.id !== targetPal.id && inherited.size === targetSet.size && partner.passives.size === 0) {
+          continue; // Skip redundant 4-trait intermediate species transfer!
+        }
+
         const stepInfo = {
           p1_pal: current.pal,
           p1_gender: current.gender || "Any",
