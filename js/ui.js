@@ -150,8 +150,9 @@ export class UIRenderer {
     });
   }
 
-  openPassiveModal(callback, title = "Passive auswählen") {
+  openPassiveModal(callback, title = "Passive auswählen", quickPassives = []) {
     this.passiveModalCallback = callback;
+    this.currentQuickPassives = quickPassives;
     const modal = document.getElementById("passive-selection-modal");
     const titleEl = document.getElementById("passive-modal-title");
     const searchEl = document.getElementById("passive-modal-search");
@@ -167,6 +168,7 @@ export class UIRenderer {
     const modal = document.getElementById("passive-selection-modal");
     if (modal) modal.classList.remove("active");
     this.passiveModalCallback = null;
+    this.currentQuickPassives = [];
   }
 
   renderPassiveModalGrid() {
@@ -177,6 +179,51 @@ export class UIRenderer {
 
     if (!grid) return;
     grid.innerHTML = "";
+
+    // Quick Passives Shortcut Bar (if available)
+    if (this.currentQuickPassives && this.currentQuickPassives.length > 0) {
+      const quickContainer = document.createElement("div");
+      quickContainer.className = "quick-passives-wrapper";
+      quickContainer.style.gridColumn = "1 / -1";
+      quickContainer.style.background = "rgba(140, 82, 255, 0.15)";
+      quickContainer.style.border = "1px solid #8c52ff";
+      quickContainer.style.borderRadius = "10px";
+      quickContainer.style.padding = "12px 16px";
+      quickContainer.style.marginBottom = "10px";
+
+      const qTitle = document.createElement("div");
+      qTitle.style.fontWeight = "bold";
+      qTitle.style.fontSize = "0.9rem";
+      qTitle.style.color = "#ffffff";
+      qTitle.style.marginBottom = "8px";
+      qTitle.textContent = "🎯 Schnell-Wahl (Deine Wunsch-Passive):";
+      quickContainer.appendChild(qTitle);
+
+      const qList = document.createElement("div");
+      qList.style.display = "flex";
+      qList.style.gap = "8px";
+      qList.style.flexWrap = "wrap";
+
+      this.currentQuickPassives.forEach(p => {
+        if (!p) return;
+        const qCard = document.createElement("div");
+        qCard.className = `passive-modal-card tier-${p.stars || 1}`;
+        qCard.style.padding = "6px 12px";
+        qCard.style.cursor = "pointer";
+
+        qCard.innerHTML = `
+          <div style="font-weight:bold; font-size:0.85rem; color:#ffffff;">+ ${p.name}</div>
+        `;
+        qCard.onclick = () => {
+          if (this.passiveModalCallback) this.passiveModalCallback(p);
+          this.closePassiveModal();
+        };
+        qList.appendChild(qCard);
+      });
+
+      quickContainer.appendChild(qList);
+      grid.appendChild(quickContainer);
+    }
 
     const filtered = this.engine.passives.filter(p => {
       if (tierNum !== 0 && p.stars !== tierNum) return false;

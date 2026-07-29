@@ -441,10 +441,11 @@ class PalworldWebApp {
             } else {
               pPill.innerHTML = `<span>+ Passiv</span>`;
               pPill.onclick = () => {
+                const quicks = this.targetPassives.filter(Boolean);
                 this.ui.openPassiveModal((selected) => {
                   item.passives[pIdx] = selected.name;
                   this.renderPassiveCalcUI();
-                }, "Passive wählen");
+                }, "Passive wählen", quicks);
               };
             }
 
@@ -653,6 +654,56 @@ class PalworldWebApp {
       card.appendChild(p2Pill);
       card.appendChild(arrow);
       card.appendChild(childPill);
+
+      // Alternative Parent Pairs Selector
+      const altCombos = this.engine.getCombinations(step.child_pal.id);
+      if (altCombos.length > 1) {
+        const altWrapper = document.createElement("div");
+        altWrapper.style.width = "100%";
+        altWrapper.style.marginTop = "6px";
+        altWrapper.style.display = "flex";
+        altWrapper.style.alignItems = "center";
+        altWrapper.style.gap = "8px";
+
+        const altLabel = document.createElement("span");
+        altLabel.style.fontSize = "0.78rem";
+        altLabel.style.color = "#8c52ff";
+        altLabel.style.fontWeight = "bold";
+        altLabel.textContent = `🔄 Anderes Elternpaar für ${step.child_pal.name_de || step.child_pal.name_en} wählen (${altCombos.length} Optionen):`;
+
+        const altSelect = document.createElement("select");
+        altSelect.style.background = "rgba(140, 82, 255, 0.15)";
+        altSelect.style.border = "1px solid #8c52ff";
+        altSelect.style.color = "#ffffff";
+        altSelect.style.borderRadius = "6px";
+        altSelect.style.padding = "4px 8px";
+        altSelect.style.fontSize = "0.8rem";
+        altSelect.style.cursor = "pointer";
+
+        altCombos.forEach(([ap1, ap2], cIdx) => {
+          const opt = document.createElement("option");
+          opt.value = cIdx;
+          const name1 = ap1.name_de || ap1.name_en;
+          const name2 = ap2.name_de || ap2.name_en;
+          opt.textContent = `${name1} + ${name2}`;
+          if ((ap1.id === step.p1_pal.id && ap2.id === step.p2_pal.id) || (ap1.id === step.p2_pal.id && ap2.id === step.p1_pal.id)) {
+            opt.selected = true;
+          }
+          altSelect.appendChild(opt);
+        });
+
+        altSelect.onchange = (e) => {
+          const selectedIdx = parseInt(e.target.value, 10);
+          const [newP1, newP2] = altCombos[selectedIdx];
+          step.p1_pal = newP1;
+          step.p2_pal = newP2;
+          this.runPassiveBreedingCalculation();
+        };
+
+        altWrapper.appendChild(altLabel);
+        altWrapper.appendChild(altSelect);
+        card.appendChild(altWrapper);
+      }
 
       resultsContainer.appendChild(card);
     });
